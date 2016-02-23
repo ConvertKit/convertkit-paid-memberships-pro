@@ -25,7 +25,7 @@ class ConvertKit_PMP_API {
 	protected $api_version = 'v3';
 
 	/** @var  string $api_url */
-	protected $api_url = 'https://api.convertkit.com/';
+	protected $api_url = 'https://api.convertkit.com';
 
 	/** @var  string $api_key The customer's ConvertKit API key */
 	protected $api_key;
@@ -41,6 +41,7 @@ class ConvertKit_PMP_API {
 	 * Initialize the class.
 	 *
 	 * @since    1.0.0
+	 * @param    string $api_key
 	 */
 	public function __construct( $api_key ) {
 
@@ -88,7 +89,7 @@ class ConvertKit_PMP_API {
 
 		$tags = get_transient( 'convertkit_pmp_tag_data' );
 
-		if( false === $tags ) {
+		if( false === $tags || empty( $tags ) ) {
 			$data = $this->do_api_call( 'tags' );
 
 			if( ! is_wp_error( $data ) ) {
@@ -109,6 +110,22 @@ class ConvertKit_PMP_API {
 
 	}
 
+
+	/**
+	 *
+	 * @param string $user_email
+	 * @param string $user_name
+	 * @param int $tag_id
+	 */
+	public function add_tag_to_user( $user_email, $user_name, $tag_id ){
+
+		$args = array(
+			'name' => $user_name,
+			'email' => $user_email,
+		);
+		$response = $this->do_api_call( 'tags/' . $tag_id . '/subscribe', $args, 'POST' );
+
+	}
 
 
 	/**
@@ -146,6 +163,9 @@ class ConvertKit_PMP_API {
 
 		), $request_args );
 
+		$this->log( "Request url: " . $request_url );
+		$this->log( "Request args: " . print_r( $request_args, true ) );
+
 		// Do the request
 		$response = wp_remote_request( $request_url, $request_args );
 
@@ -157,6 +177,7 @@ class ConvertKit_PMP_API {
 			$response_data = json_decode( $response_body, true );
 
 			if( is_null( $response_data ) ) {
+				$this->log( "Response data not null. " . print_r( $response,true));
 				return new WP_Error( 'parse_failed', __('Could not parse response from ConvertKit', 'convertkit-pmp' ) );
 			} else if( isset( $response_data['error']) && isset($response_data['message'] ) ) {
 				return new WP_Error( $response_data['error'], $response_data['message'] );
@@ -167,5 +188,26 @@ class ConvertKit_PMP_API {
 		}
 
 	}
+
+
+	/**
+	 * Log API calls and updates.
+	 *
+	 * @since 1.0.0
+	 * @param string $message Message to put in the log.
+	 */
+	public function log( $message ) {
+
+		if ( defined( 'CK_DEBUG') ) {
+
+			$log     = fopen( plugin_dir_path( __FILE__ ) . '/log.txt', 'a+' );
+			$message = '[' . date( 'd-m-Y H:i:s' ) . '] ' . $message . PHP_EOL;
+			fwrite( $log, $message );
+			fclose( $log );
+
+		}
+
+	}
+
 
 }

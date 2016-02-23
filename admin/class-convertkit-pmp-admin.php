@@ -53,8 +53,8 @@ class ConvertKit_PMP_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param    string    $plugin_name       The name of this plugin.
+	 * @param    string    $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
@@ -63,60 +63,16 @@ class ConvertKit_PMP_Admin {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-convertkit-pmp-api.php';
 
-		$api_key = $this->get_option( 'api_key' );
+		$api_key = $this->get_option( 'api-key' );
 
 		$this->api = new ConvertKit_PMP_API( $api_key );
-	}
-
-	/**
-	 * Register the stylesheets for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/convertkit-pmp-admin.css', array(), $this->version, 'all' );
-
-	}
-
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
-
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Plugin_Name_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Plugin_Name_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/convertkit-pmp-admin.js', array( 'jquery' ), $this->version, false );
-
 	}
 
 
 	/**
 	 *  Register settings for the plugin.
+	 *
+	 * The mapping section is dynamic and depends on defined membership levels and defined tags.
 	 *
 	 * @since       1.0.0
 	 * @return      void
@@ -146,14 +102,48 @@ class ConvertKit_PMP_Admin {
 			$this->plugin_name . '-display-options'
 		);
 
-		add_settings_field(
-			'form',
-			apply_filters( $this->plugin_name . '-display-form', __( 'Default form', 'convertkit-pmp' ) ),
-			array( $this, 'display_options_form' ),
-			$this->plugin_name,
-			$this->plugin_name . '-display-options'
+		// add_settings_section( $id, $title, $callback, $menu_slug );
+		add_settings_section(
+			$this->plugin_name . '-ck-mapping',
+			apply_filters( $this->plugin_name . '-display-mapping-title', __( 'Assign Tags', 'convertkit-pmp' ) ),
+			array( $this, 'display_mapping_section' ),
+			$this->plugin_name
 		);
 
+		// Get all PMP membership levels
+		$levels = $this->get_pmp_membership_levels();
+
+		// Get all tags from ConvertKit
+		$tags = $this->api->get_tags();
+
+		// No PMP mappings created yet
+		if ( empty ( $levels ) ){
+
+			add_settings_field(
+				'convertkit-empty-mapping',
+				apply_filters( $this->plugin_name . '-display-convertkit-mapping', __( 'Mapping', 'convertkit-pmp' ) ),
+				array( $this, 'display_options_empty_mapping' ),
+				$this->plugin_name,
+				$this->plugin_name . '-ck-mapping'
+			);
+
+		} else {
+			foreach( $levels as $key => $name ) {
+
+				add_settings_field(
+					'convertkit-mapping-' . $key,
+					apply_filters( $this->plugin_name . '-display-convertkit-mapping-' . $key , $name ),
+					array( $this, 'display_options_convertkit_mapping' ),
+					$this->plugin_name,
+					$this->plugin_name . '-ck-mapping',
+					array( 'key' => $key,
+					       'name' => $name,
+					       'tags' => $tags,
+					)
+				);
+			}
+
+		}
 
 	}
 
@@ -200,13 +190,11 @@ class ConvertKit_PMP_Admin {
 	 * @return 		array 						array of validated plugin options
 	 */
 	public function validate_options( $input ) {
-		$valid = array();
-
-		// TODO Finish validation
 
 
 		return $input;
 	}
+
 
 	/**
 	 * Creates a settings section
@@ -218,6 +206,19 @@ class ConvertKit_PMP_Admin {
 	public function display_options_section( $params ) {
 		echo '<p>' . __( 'Add your API key below and then choose a default form to add subscribers to.','convertkit-pmp') .'</p>';
 	}
+
+
+	/**
+	 * Creates a settings section
+	 *
+	 * @since 		1.0.0
+	 * @param 		array 		$params 		Array of parameters for the section
+	 * @return 		mixed 						The settings section
+	 */
+	public function display_mapping_section( $params ) {
+		echo '<p>' . __( 'Below is a list of the defined PMP Membership Levels. Assign a membership level to a ConvertKit tag that will be assigned to members of that level.','convertkit-pmp') .'</p>';
+	}
+
 
 	/**
 	 * Adds a link to the plugin settings page
@@ -233,20 +234,6 @@ class ConvertKit_PMP_Admin {
 		return $links;
 	}
 
-	/**
-	 * Creates a settings checkbox
-	 *
-	 * @since 		1.0.0
-	 * @return 		mixed 			The checkbox field
-	 */
-	public function display_options_checkbox( $field_name) {
-		$options 	= get_option( $this->plugin_name . '-options' );
-		$option 	= 0;
-		if ( ! empty( $options['display-salary'] ) ) {
-			$option = $options['display-salary'];
-		}
-		?><input type="checkbox" id="<?php echo $this->plugin_name; ?>-options'[<?php echo $field_name ?>]" name="<?php echo $this->plugin_name; ?>-options'[<?php echo $field_name ?>]" value="1" <?php checked( 1, $option, false ); ?> /><?php
-	}
 
 	/**
 	 * Creates a settings input for the API key.
@@ -263,29 +250,105 @@ class ConvertKit_PMP_Admin {
 
 
 	/**
-	 * Creates a settings input for the API key.
+	 * Empty mapping callback
+	 *
+	 * No PMP Membership Levels have been added yet.
 	 *
 	 * @since 		1.0.0
 	 * @return 		mixed 			The settings field
 	 */
-	public function display_options_form() {
-		$form = $this->get_option( 'form' );
+	public function display_options_empty_mapping() {
+		?>
+		<p><?php echo __( 'No PMP Membership Levels have been added yet.', 'converkit-pmp'); ?><br/>
+			<?php echo sprintf( __( 'You can add one <a href="%s">here</a>.', 'converkit-pmp'), get_admin_url( null, '/admin.php?page=pmpro-membershiplevels' ) ); ?></p>
+		<?php
+	}
 
-		$forms = $this->api->get_forms();
 
-		if ( 0 === count( $forms ) ){
-			$options = array( '' => __( 'Add API key to retrieve forms', 'convertkit-pmp' ) );
+	/**
+	 * Display mapping for the specified key.
+	 *
+	 * @since 1.0.0
+	 * @param string $args
+	 */
+	public function display_options_convertkit_mapping( $args ) {
+
+		$option_name = 'convertkit-mapping-' . $args['key'];
+		$tag         = $this->get_option( $option_name );
+		$api_key     = $this->get_option( 'api-key' );
+
+		if ( empty( $api_key ) ) {
+			?><p><?php echo __( 'Enter API key to retrieve list of tags.', 'convertkit-pmp' ); ?></p><?php
+		} elseif( is_null( $args['tags'] ) ) {
+			?><p><?php echo __( 'No tags were returned from ConvertKit.', 'convertkit-pmp' ); ?></p><?php
 		} else {
-			$options = $forms;
+
+			?><select id="<?php echo $this->plugin_name; ?>-options[<?php echo $option_name ?>]"
+			          name="<?php echo $this->plugin_name; ?>-options[<?php echo $option_name ?>]"><?php
+			if ( empty( $tag ) ) {
+				?>
+				<option value=""><?php echo __( 'Select a tag', 'convertkit-pmp' ); ?></option><?
+			}
+			foreach ( $args['tags'] as $value => $text ) {
+				?>
+				<option value="<?php echo $value; ?>" <?php selected( $tag, $value ); ?>><?php echo $text; ?></option><?
+			}
+			?></select><?php
 		}
 
-		error_log( print_r( $options, true ) );
+	}
 
-		?><select id="<?php echo $this->plugin_name; ?>-options[form]" name="<?php echo $this->plugin_name; ?>-options[form]"><?php
-		foreach ( $options as $value => $text ) {
-			?><option value="<?php echo $value; ?>" <?php selected( $form, $value); ?>><?php echo $text; ?></option><?
+	/**
+	 * Get all PMP Membership levels
+	 *
+	 * Helper function to get member levels from PMP database.
+	 * This is patterned on PMP's `membershiplevels.php` file.
+	 * @see https://github.com/strangerstudios/paid-memberships-pro/blob/dev/adminpages/membershiplevels.php#L526
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function get_pmp_membership_levels(){
+
+		global $wpdb;
+
+		$sqlQuery = "SELECT * FROM $wpdb->pmpro_membership_levels ";
+		$sqlQuery .= "ORDER BY id ASC";
+
+		$result = $wpdb->get_results($sqlQuery, OBJECT);
+
+		$levels = array();
+
+		foreach ( $result as $_level ){
+			$levels[ $_level->id ] = $_level->name;
 		}
-		?></select><?php
+
+		return $levels;
+
+	}
+
+
+	/**
+	 * A change membership level action is occurring in PMP.
+	 *
+	 * If $level == 0 then the user is being removed from a membership.
+	 * If $level is > 0 then the user is being added to level with that ID.
+	 *
+	 * @since 1.0.0
+	 * @param int $level_id
+	 * @param int $user_id
+	 */
+	public function change_membership_level( $level_id, $user_id ) {
+
+		$mapping = 'convertkit-mapping-' . $level_id;
+		$tag_id = $this->get_option( $mapping );
+		$user = get_userdata( $user_id );
+		$user_email = $user->user_email;
+		$user_name = urlencode( $user->first_name . ' ' . $user->last_name );
+
+		if (! empty( $tag_id ) ){
+			$this->api->add_tag_to_user( $user_email, $user_name, $tag_id );
+		}
 
 	}
 
