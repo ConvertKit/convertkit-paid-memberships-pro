@@ -1,5 +1,4 @@
 <?php
-
 /**
  * The plugin bootstrap file
  *
@@ -32,7 +31,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * The code that runs during plugin activation.
- * This action is documented in includes/class-convertkit_pmp-activator.php
+ * This action is documented in includes/class-convertkit-pmp-activator.php
  */
 function activate_convertkit_pmp() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-convertkit-pmp-activator.php';
@@ -41,7 +40,7 @@ function activate_convertkit_pmp() {
 
 /**
  * The code that runs during plugin deactivation.
- * This action is documented in includes/classconvertkit_pmp-deactivator.php
+ * This action is documented in includes/class-convertkit-pmp-deactivator.php
  */
 function deactivate_convertkit_pmp() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-convertkit-pmp-deactivator.php';

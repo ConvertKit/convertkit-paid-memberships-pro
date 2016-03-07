@@ -12,8 +12,7 @@ This plugin integrates ConvertKit with Paid Memberships Pro.
 
 == Description ==
 
-
-[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products . This plugin makes it a little bit easier for those of us using
+[ConvertKit](https://convertkit.com) makes it easy to capture more leads and sell more products. This plugin makes it a little bit easier for those of us using
  Paid Memberships Pro to subscribe and tag customers that signup for memberships.
 
 == Installation ==
@@ -43,3 +42,5 @@ Yes, for it to work you must first have an account on ConvertKit.com
 
 
 == Upgrade notice ==
+
+None.
