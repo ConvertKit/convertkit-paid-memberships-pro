@@ -1,7 +1,7 @@
 === Plugin Name ===
-Contributors: nathanbarry
+Contributors: nathanbarry, growdev
 Donate link: http://convertkit.com/
-Tags: convertkit, email, marketing, pmp, paid memberships pro
+Tags: convertkit, email, marketing, pmpro, pmp, paid memberships pro
 Requires at least: 3.0.1
 Tested up to: 4.4.2
 Stable tag: 1.0.0
@@ -17,7 +17,7 @@ This plugin integrates ConvertKit with Paid Memberships Pro.
 
 == Installation ==
 
-1. Upload `cpmvertlot-paid-memberships-pro` to the `/wp-content/plugins/` directory
+1. Upload `convertkit-for-paid-memberships-pro` to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Visit the settings page by clicking on the link under the plugin's name
 4. Enter your ConvertKit API key, which you can find [here](https://app.convertkit.com/account/edit), and save the settings
