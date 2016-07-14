@@ -3,8 +3,8 @@ Contributors: nathanbarry, growdev
 Donate link: http://convertkit.com/
 Tags: convertkit, email, marketing, pmpro, pmp, paid memberships pro
 Requires at least: 3.0.1
-Tested up to: 4.4.2
-Stable tag: 1.0.0
+Tested up to: 4.5.3
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,9 @@ This plugin integrates ConvertKit with Paid Memberships Pro.
 Yes, for it to work you must first have an account on ConvertKit.com
 
 == Changelog ==
+
+- 1.0.1 =
+* Fixed PHP shorttag that was causing PHP parse error.
 
 = 1.0 =
 * Initial release
