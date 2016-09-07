@@ -1,0 +1,234 @@
+[24-08-2016 15:07:31] Request url: https://api.convertkit.com/v3/tags/20107/subscribe?name=+&email=testtest@growdevelopment.com&api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:07:31] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => POST
+    [timeout] => 30
+)
+
+[24-08-2016 15:10:41] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:10:41] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 15:20:40] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:20:40] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 15:31:03] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:31:03] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 15:42:21] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:42:21] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 15:50:49] Request url: https://api.convertkit.com/v3/tags/20107/subscribe?name=+&email=jaketest@growdevelopment.com&api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:50:49] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => POST
+    [timeout] => 30
+)
+
+[24-08-2016 15:52:46] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 15:52:46] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 16:02:20] Request url: https://api.convertkit.com/v3/tags/20107/subscribe?name=+&email=joetest@growdevelopment.com&api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 16:02:20] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => POST
+    [timeout] => 30
+)
+
+[24-08-2016 16:02:23] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 16:02:23] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 16:12:46] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 16:12:46] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[24-08-2016 16:22:49] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[24-08-2016 16:22:49] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[06-09-2016 18:24:58] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[06-09-2016 18:24:58] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[06-09-2016 18:36:23] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[06-09-2016 18:36:23] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[06-09-2016 18:47:04] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[06-09-2016 18:47:04] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[06-09-2016 18:58:04] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[06-09-2016 18:58:04] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[06-09-2016 20:26:39] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[06-09-2016 20:26:39] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[07-09-2016 02:56:18] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[07-09-2016 02:56:18] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
+[07-09-2016 03:08:28] Request url: https://api.convertkit.com/v3/tags?api_key=ERJye1W7eFgwGoIOKSf_Rg
+[07-09-2016 03:08:28] Request args: Array
+(
+    [body] => 
+    [headers] => Array
+        (
+            [Accept] => application/json
+        )
+
+    [method] => GET
+    [timeout] => 30
+)
+
