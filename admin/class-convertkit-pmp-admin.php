@@ -287,11 +287,11 @@ class ConvertKit_PMP_Admin {
 			          name="<?php echo $this->plugin_name; ?>-options[<?php echo $option_name ?>]"><?php
 			if ( empty( $tag ) ) {
 				?>
-				<option value=""><?php echo __( 'Select a tag', 'convertkit-pmp' ); ?></option><?
+				<option value=""><?php echo __( 'Select a tag', 'convertkit-pmp' ); ?></option><?php
 			}
 			foreach ( $args['tags'] as $value => $text ) {
 				?>
-				<option value="<?php echo $value; ?>" <?php selected( $tag, $value ); ?>><?php echo $text; ?></option><?
+				<option value="<?php echo $value; ?>" <?php selected( $tag, $value ); ?>><?php echo $text; ?></option><?php
 			}
 			?></select><?php
 		}

@@ -69,7 +69,7 @@ class ConvertKit_PMP {
 	public function __construct() {
 
 		$this->plugin_name = 'convertkit-pmp';
-		$this->version = '1.0.1';
+		$this->version = '1.0.2';
 
 		$this->load_dependencies();
 		$this->set_locale();
