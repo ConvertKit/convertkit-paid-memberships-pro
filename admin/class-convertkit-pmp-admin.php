@@ -110,39 +110,48 @@ class ConvertKit_PMP_Admin {
 			$this->plugin_name
 		);
 
-		// Get all PMP membership levels
-		$levels = $this->get_pmp_membership_levels();
+		if ( defined( 'PMPRO_VERSION' ) ) {
+			// Get all PMP membership levels
+			$levels = $this->get_pmp_membership_levels();
 
-		// Get all tags from ConvertKit
-		$tags = $this->api->get_tags();
+			// Get all tags from ConvertKit
+			$tags = $this->api->get_tags();
 
-		// No PMP mappings created yet
-		if ( empty ( $levels ) ){
+			// No PMP mappings created yet
+			if ( empty ( $levels ) ) {
 
+				add_settings_field(
+					'convertkit-empty-mapping',
+					apply_filters( $this->plugin_name . '-display-convertkit-mapping', __( 'Mapping', 'convertkit-pmp' ) ),
+					array( $this, 'display_options_empty_mapping' ),
+					$this->plugin_name,
+					$this->plugin_name . '-ck-mapping'
+				);
+			} else {
+				foreach ( $levels as $key => $name ) {
+
+					add_settings_field(
+						'convertkit-mapping-' . $key,
+						apply_filters( $this->plugin_name . '-display-convertkit-mapping-' . $key, $name ),
+						array( $this, 'display_options_convertkit_mapping' ),
+						$this->plugin_name,
+						$this->plugin_name . '-ck-mapping',
+						array(
+							'key'  => $key,
+							'name' => $name,
+							'tags' => $tags,
+						)
+					);
+				}
+			}
+		} else {
 			add_settings_field(
 				'convertkit-empty-mapping',
 				apply_filters( $this->plugin_name . '-display-convertkit-mapping', __( 'Mapping', 'convertkit-pmp' ) ),
-				array( $this, 'display_options_empty_mapping' ),
+				array( $this, 'plugin_not_active' ),
 				$this->plugin_name,
 				$this->plugin_name . '-ck-mapping'
 			);
-
-		} else {
-			foreach( $levels as $key => $name ) {
-
-				add_settings_field(
-					'convertkit-mapping-' . $key,
-					apply_filters( $this->plugin_name . '-display-convertkit-mapping-' . $key , $name ),
-					array( $this, 'display_options_convertkit_mapping' ),
-					$this->plugin_name,
-					$this->plugin_name . '-ck-mapping',
-					array( 'key' => $key,
-					       'name' => $name,
-					       'tags' => $tags,
-					)
-				);
-			}
-
 		}
 
 	}
@@ -173,12 +182,13 @@ class ConvertKit_PMP_Admin {
 	 * @return 		void
 	 */
 	public function options_page() {
-		?><div class="wrap"><h1><?php echo esc_html( get_admin_page_title() ); ?></h1></div>
-		<form action="options.php" method="post"><?php
-		settings_fields( 'convertkit-pmp-options' );
-		do_settings_sections( $this->plugin_name );
-		submit_button( 'Save Settings' );
-		?></form><?php
+        ?>
+        <div class="wrap"><h1><?php echo esc_html( get_admin_page_title() ); ?></h1></div>
+        <form action="options.php" method="post"><?php
+        settings_fields( 'convertkit-pmp-options' );
+        do_settings_sections( $this->plugin_name );
+        submit_button( 'Save Settings' );
+        ?></form><?php
 	}
 
 
@@ -264,6 +274,18 @@ class ConvertKit_PMP_Admin {
 		<?php
 	}
 
+	/**
+	 * PMPro plugin not active.
+	 *
+	 * @since 		1.0.3
+	 * @return 		mixed 			The settings field
+	 */
+	public function plugin_not_active() {
+		?>
+        <p><?php echo __( 'The PMPro plugin is not active.', 'converkit-pmp'); ?></p>
+		<?php
+	}
+
 
 	/**
 	 * Display mapping for the specified key.
@@ -309,7 +331,6 @@ class ConvertKit_PMP_Admin {
 	 * @return array
 	 */
 	public function get_pmp_membership_levels(){
-
 		global $wpdb;
 
 		$sqlQuery = "SELECT * FROM $wpdb->pmpro_membership_levels ";
